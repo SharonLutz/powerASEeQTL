@@ -1,5 +1,5 @@
 ## powerASEeQTL
-The powerASEeQTL R package runs power calculations for eQTL analysis using RNA-seq data and creates plots of these results.
+The powerASEeQTL R package runs power calculations for ASE and eQTL analysis using RNA-seq data and creates plots of these results.
 #### Installation
 ```
 install.packages("devtools") # devtools must be installed first
