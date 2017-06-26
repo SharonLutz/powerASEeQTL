@@ -24,9 +24,7 @@ linewidth = 2, tilt = 0)
 
 #### Output
 For this analysis we have the following plot:
-
-
-
+![powerASEeQTL plot](powerRNAseqN100Mu500.png)
 
 #### Reference
 Lutz SM, Thwing A, Fingerlin TE. (2017) Power Calculations for eQTL Mapping and Allele Specific Expression with RNA-seq Data. (In Preparation)
