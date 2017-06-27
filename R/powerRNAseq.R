@@ -13,7 +13,7 @@ function(n, mu, fold, phi, theta, n.simu, alpha, maf)
   pval1 = pval2 = pval3 = pval4 = pval5 = pval6 = pval7 = useASE = rep(1, n.simu)
 
   for(k in 1:n.simu){
-  if(k%%10==0){print(k)}
+  if(k%%10==0){print(paste("simulation",k,"of",n.simu))}
     
     # ------------------------------------------------
     # simulate data: total read couont
