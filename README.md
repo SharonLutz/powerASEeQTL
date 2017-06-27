@@ -9,7 +9,7 @@ install.packages("VGAM") #this package must be installed first
 devtools::install_github("SharonLutz/powerASEeQTL")
 ```
 #### Example
-The code below creates a plot of the results of the power calculations for eQTL anlaysis using RNA-seq data and the following parameters:
+The code below creates a plot of the power calculations for the eQTL and ASE anlayses for RNA-seq data with the following parameters:
 ```
 library(powerASEeQTL)
 ?powerASEeQTL # For details on this function and how to customize its graphical output
@@ -23,7 +23,7 @@ linewidth = 2, tilt = 0)
 ```
 
 #### Output
-For this analysis we get the following results and plot:
+For this analysis we get the following matrix for the power calculations and corresponding plot:
 ```
   linear negativeB  TReC TReCASE ASEchi2 ASEbinom poisson
 1  0.010     0.015 0.015   0.050   0.030    0.025   0.025
