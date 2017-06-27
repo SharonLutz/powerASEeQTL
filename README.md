@@ -24,12 +24,12 @@ linewidth = 2, tilt = 0)
 
 #### Output
 For this analysis we get the following results and plot:
-
+```
   linear negativeB  TReC TReCASE ASEchi2 ASEbinom poisson
 1  0.010     0.015 0.015   0.050   0.030    0.025   0.025
 2  0.080     0.120 0.125   0.405   0.105    0.175   0.155
 3  0.255     0.390 0.410   0.810   0.420    0.470   0.445
-
+```
 ![powerASEeQTL plot](powerRNAseqN100Mu500.png)
 
 #### Reference
