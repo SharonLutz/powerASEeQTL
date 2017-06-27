@@ -1,6 +1,8 @@
 
 powerASEeQTL <-
-function(n,mu=500, n.simu=200, methods=c("linear", "negativeB", "poisson","TReC","ASEchi2","ASEbinom", "TReCASE"), legend=TRUE, color=TRUE, folds= seq(1.5, 1.7, by=0.2), alpha=0.001, phi=1.0, theta=0.1, maf=0.2, numcol=1, title="", subtitle="", titlecolor="black", subtitlecolor="black", titlesize=1, subtitlesize=1, legendbox="o", labelsize = 1, labelcolor = "black", linewidth=2, tilt=0)
+function(n,mu=500, n.simu=200, methods=c("linear", "negativeB", "poisson","TReC","ASEchi2","ASEbinom", "TReCASE"), 
+         legend=TRUE, color=TRUE, folds= seq(1.5, 1.7, by=0.2), alpha=0.001, phi=1.0, theta=0.1, maf=0.2, numcol=1, title="", 
+         subtitle="", titlecolor="black", subtitlecolor="black", titlesize=1, subtitlesize=1, legendbox="o", labelsize = 1, labelcolor = "black", linewidth=2, tilt=0)
 {
   
   library(VGAM)
@@ -69,15 +71,13 @@ plot(-1,-1,xlim=c(min(folds),max(folds)),ylim=c(0,1),main=title,sub=subtitle,col
 
 
 for(mi in 1:length(methods)){
-    if(methods[mi]=="linear"){lines(folds,matResults[,1],pchv[mi],colVec[mi],type="b",ltyv[mi],lwd=linewidth)}
-    if(methods[mi]=="negativeB"){lines(folds,matResults[,2],pchv[mi],colVec[mi],type="b",ltyv[mi], lwd=linewidth)}
-  if(methods[mi]=="poisson"){lines(folds,matResults[,7],pchv[mi],colVec[mi],type="b",ltyv[mi],lwd=linewidth)}
-    if(methods[mi]=="TReC"){lines(folds,matResults[,3],pchv[mi],colVec[mi],type="b",ltyv[mi],lwd=linewidth)}
-  if(methods[mi]=="ASEchi2"){lines(folds,matResults[,5],pchv[mi],colVec[mi],type="b",ltyv[mi],lwd=linewidth)}
-  if(methods[mi]=="ASEbinom"){lines(folds,matResults[,6],pchv[mi],colVec[mi],type="b",ltyv[mi],lwd=linewidth)}
-    if(methods[mi]=="TReCASE"){lines(folds,matResults[,4],pchv[mi],colVec[mi],type="b",ltyv[mi],lwd=linewidth)}
-
-    
+    if(methods[mi]=="linear"){lines(folds,matResults[,1],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
+    if(methods[mi]=="negativeB"){lines(folds,matResults[,2],pch = pchv[mi],col=colVec[mi],type="b",lty = ltyv[mi], lwd = linewidth)}
+  if(methods[mi]=="poisson"){lines(folds,matResults[,7],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
+    if(methods[mi]=="TReC"){lines(folds,matResults[,3],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
+  if(methods[mi]=="ASEchi2"){lines(folds,matResults[,5],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
+  if(methods[mi]=="ASEbinom"){lines(folds,matResults[,6],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
+    if(methods[mi]=="TReCASE"){lines(folds,matResults[,4],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
 }
 
 leg.text <- c("eQTL: Linear Regression","eQTL: Negative binomial","eQTL: Poisson Regression","eQTL: TreC","ASE: chi-square",
