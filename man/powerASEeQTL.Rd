@@ -7,7 +7,7 @@
 \usage{ powerASEeQTL(n, mu = 500, n.simu = 200, methods=c("linear", "negativeB", "poisson","TReC","ASEchi2","ASEbinom", "TReCASE"), 
 legend = TRUE, color = TRUE, folds = seq(1.5, 1.7, by = 0.2), alpha = 0.001, phi = 1, theta = 0.1, maf = 0.2, 
 numcol = 1, title = "", subtitle = "", titlecolor = "black", subtitlecolor = "black", titlesize = 1, subtitlesize = 1, 
-legendbox = "o", labelsize = 1, labelcolor = "black", linewidth = 2, tilt = 0)
+legendbox = "o", labelsize = 1, labelcolor = "black", linewidth = 2, tilt = 0, SEED = 1)
 }
 \arguments{
   \item{n}{
@@ -89,6 +89,9 @@ distribution for the total number of read counts.
 }
   \item{tilt}{
   denotes whether or not the y axis labels are tilted, default is 0, 1 will rotate labels 90 degrees
+}
+  \item{SEED}{
+  sets the seed, default = 1.
 }
 }
 

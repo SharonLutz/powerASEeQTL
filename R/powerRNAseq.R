@@ -1,4 +1,3 @@
-
 powerRNAseq <-
 function(n, mu, fold, phi, theta, n.simu, alpha, maf)
 {
@@ -13,7 +12,7 @@ function(n, mu, fold, phi, theta, n.simu, alpha, maf)
   pval1 = pval2 = pval3 = pval4 = pval5 = pval6 = pval7 = useASE = rep(1, n.simu)
 
   for(k in 1:n.simu){
-  if(k%%10==0){print(paste("simulation",k,"of",n.simu))}
+  if(k%%10==0){print(k)}
     
     # ------------------------------------------------
     # simulate data: total read couont
@@ -76,11 +75,6 @@ function(n, mu, fold, phi, theta, n.simu, alpha, maf)
       }    
     }
     
-    # print(y1)
-    # print(sum(y1))
-    # print(y2)
-    # print(sum(y2))
-    
     # ------------------------------------------------
     # fit different models
     # ------------------------------------------------
@@ -140,6 +134,8 @@ function(n, mu, fold, phi, theta, n.simu, alpha, maf)
   # pp5: ASEchi2 **I think
   # pp6: ASEbinom
   # pp7: Poisson
-
-  c(pp1, pp2, pp3, pp4, pp5, pp6, pp7)
+  
+  # Return in this order: linear, negbin, poisson, trec, asechi2, asebinom, trecase
+  # This would be: pp1, pp2, pp7, pp3, pp5, pp6, pp4 ** DOUBLE CHECK pp4 pp5 with Sharon
+  c(pp1, pp2, pp7, pp3, pp5, pp6, pp4)
 }
