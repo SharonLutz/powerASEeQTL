@@ -31,7 +31,7 @@ For this analysis we get the following matrix for the power calculations and cor
 3   0.26      0.35   0.445 0.375   0.375    0.445   0.805
 ```
 ![powerASEeQTL plot](powerRNAseqN100Mu500.png)
-<img src="https://github.com/SharonLutz/powerASEeQTL/powerRNAseqN100Mu500.png" width="48">
+<img src="https://github.com/SharonLutz/powerASEeQTL/blob/master/powerRNAseqN100Mu500.png" width="48">
 
 
 #### Reference
