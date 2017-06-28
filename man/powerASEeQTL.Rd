@@ -6,8 +6,8 @@
 }
 \usage{ powerASEeQTL(n, mu = 500, n.simu = 200, methods=c("linear", "negativeB", "poisson","TReC","ASEchi2","ASEbinom", "TReCASE"), 
 legend = TRUE, color = TRUE, folds = seq(1.5, 1.7, by = 0.2), alpha = 0.001, phi = 1, theta = 0.1, maf = 0.2, 
-numcol = 1, title = "", subtitle = "", titlecolor = "black", subtitlecolor = "black", titlesize = 1, subtitlesize = 1, 
-legendbox = "o", labelsize = 1, labelcolor = "black", linewidth = 2, tilt = 0, SEED = 1)
+title = "", subtitle = "", titlecolor = "black", subtitlecolor = "black", titlesize = 1, subtitlesize = 1, 
+labelsize = 1, labelcolor = "black", linewidth = 2, tilt = 0, SEED = 1)
 }
 \arguments{
   \item{n}{
@@ -54,9 +54,6 @@ distribution for the total number of read counts.
   \item{maf}{
   denotes the minor allele frequency.
 }
-  \item{numcol}{
-  specifies number of columns in the legend, default is 1, 5 will be a row.
-}
   \item{title}{
   specifies the main title of the graph, default is none.
 }
@@ -74,9 +71,6 @@ distribution for the total number of read counts.
 }
   \item{subtitlesize}{
   denotes what size the subtitle will be, default is 1
-}
-  \item{legendbox}{
-  legendbox = TRUE will put a box around the legend, default is FALSE
 }
   \item{labelsize}{
   denotes what size the axis labels will be, default is 1

@@ -12,7 +12,7 @@ function(n, mu, fold, phi, theta, n.simu, alpha, maf)
   pval1 = pval2 = pval3 = pval4 = pval5 = pval6 = pval7 = useASE = rep(1, n.simu)
 
   for(k in 1:n.simu){
-  if(k%%10==0){print(k)}
+  if(k%%10==0){print(paste("simulation",k,"of",n.simu))}
     
     # ------------------------------------------------
     # simulate data: total read couont
@@ -130,12 +130,12 @@ function(n, mu, fold, phi, theta, n.simu, alpha, maf)
   # pp1: linear model
   # pp2: glm.nb
   # pp3: TReC
-  # pp4: TReCASE **I think
-  # pp5: ASEchi2 **I think
+  # pp4: TReCASE **Double checked
+  # pp5: ASEchi2 **Double checked
   # pp6: ASEbinom
   # pp7: Poisson
   
   # Return in this order: linear, negbin, poisson, trec, asechi2, asebinom, trecase
-  # This would be: pp1, pp2, pp7, pp3, pp5, pp6, pp4 ** DOUBLE CHECK pp4 pp5 with Sharon
+  # This would be: pp1, pp2, pp7, pp3, pp5, pp6, pp4 **double checked
   c(pp1, pp2, pp7, pp3, pp5, pp6, pp4)
 }
