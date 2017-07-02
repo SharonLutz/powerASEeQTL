@@ -93,8 +93,6 @@ if(length(methods)>1){
 matResultsR[,gg]<-matResultsF[,colnames(matResultsF)==methods[gg]]	
 	}}
 
-# outputs the results to the following file in your working directory
-write.table(matResultsF, file=paste("simulationN",n,"Mu",mu,".txt",sep=""),quote=F,row.names=F)
 
 
 ########
@@ -139,7 +137,7 @@ for(ff in 1:length(methods)){
   if(methods[ff]=="TReCASE"){leg.text[ff]<-c("eQTL & ASE: TreCASE")}
 }
 
-if(legend==TRUE){legend("topleft",legend = leg.text,fill=colVec,col=colVec,lty=ltyv,pch=pchv)}
+if(legend==TRUE){legend("topleft",legend = leg.text,col=colVec,lty=ltyv,pch=pchv)}
 
 }
 
