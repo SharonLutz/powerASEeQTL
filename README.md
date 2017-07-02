@@ -30,4 +30,4 @@ For this analysis we get the following matrix for the power calculations and cor
 
 
 #### Reference
-Lutz SM, Thwing A, Fingerlin TE. (2017) Power Calculations for eQTL Mapping and Allele Specific Expression with RNA-seq Data. (In Preparation)
+Lutz SM, Thwing A, Fingerlin TE. (2017) Power Calculations for eQTL Mapping and Allele Specific Expression with RNA-seq Data. (Submitted)
