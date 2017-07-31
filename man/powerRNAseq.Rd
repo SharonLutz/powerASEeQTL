@@ -8,7 +8,7 @@ powerRNAseq
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-powerRNAseq(n, mu, fold, phi, theta, n.simu, alpha, maf)
+powerRNAseq(n, mu, fold, phi, theta, n.simu, alpha, maf, methods, sim, propASE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -36,6 +36,17 @@ powerRNAseq(n, mu, fold, phi, theta, n.simu, alpha, maf)
   \item{maf}{
 %%     ~~Describe \code{maf} here~~
 }
+  \item{methods}{
+%%     ~~Describe \code{maf} here~~
+}
+  \item{sim}{
+%%     ~~Describe \code{maf} here~~
+}
+  \item{propASE}{
+%%     ~~Describe \code{maf} here~~
+}
+
+
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

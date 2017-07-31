@@ -1,5 +1,5 @@
 powerRNAseq <-
-function(n, mu, fold, phi, theta, n.simu, alpha, maf)
+function(n, mu, fold, phi, theta, n.simu, alpha, maf, methods, sim, propASE)
 {
   
   library(MASS)
@@ -9,15 +9,38 @@ function(n, mu, fold, phi, theta, n.simu, alpha, maf)
   n0 = n - n1 - n2 #number of subjects with no disease alleles
   x = rep(0:2, times=c(n0, n1, n2))
   
-  pval1 = pval2 = pval3 = pval4 = pval5 = pval6 = pval7 = useASE = rep(1, n.simu)
+  pvalLin = pvalNB = pvalP= pvalQP  = pvalASEB =  pvalTreCASE = rep(1, n.simu)
 
   for(k in 1:n.simu){
   if(k%%10==0){print(paste("simulation",k,"of",n.simu))}
     
+     
     # ------------------------------------------------
-    # simulate data: total read couont
+    # simulate data scenario 1: total read couont
     # ------------------------------------------------
+    if(sim=="sim1"){
+     y1 = y2 = rep(NA, n)
+           
+     y1 = rnegbin(n0, mu/2, phi) # X=0 A
+     y1 = c(y1, rnegbin(n1, mu*(fold)/4, phi)) # X=1 B
+     y1 = c(y1, rnegbin(n2, mu*(fold)/4, phi)) # X=2 B
+     
+     y2 = rnegbin(n0, mu/2, phi) # X=0 A
+     y2 = c(y2, rnegbin(n1, mu/2, phi)) # X=1 A
+     y2 = c(y2, rnegbin(n2, mu*(fold)/4, phi))# X=2 B
     
+    y= y1+y2
+    y1=round(y1*propASE)
+    y2=round(y2*propASE)
+    
+    
+        }#end of sim1
+  
+    # ------------------------------------------------
+    # simulate data scenario 2: total read couont
+    # ------------------------------------------------
+    if(sim=="sim2"){
+    	
     b = log(fold)
     r = log(1+exp(b)) - log(2)
     y = rnegbin(n0, mu, phi)
@@ -37,7 +60,7 @@ function(n, mu, fold, phi, theta, n.simu, alpha, maf)
     alpha1 = pi1/theta
     beta1  = 1/theta - alpha1
     
-    nAS = round(0.005*y)
+    nAS = round(propASE*y)
     
     y1 = y2 = rep(NA, n)
     
@@ -74,25 +97,44 @@ function(n, mu, fold, phi, theta, n.simu, alpha, maf)
         }
       }    
     }
-    
+    }#end of sim2
     # ------------------------------------------------
-    # fit different models
+    # 4 different models for DE
     # ------------------------------------------------
     
     ## linear model
     yn = normscore(y)
     l1 = summary(lm(yn ~ x))
-    pval1[k] = l1$coef[2,4]
+    pvalLin[k] = l1$coef[2,4]
     
     ## glm.nb
     g1 = glm.nb(y ~ x)
     s1 = summary(g1)
-    pval2[k] = s1$coef[2,4]
+    pvalNB[k] = s1$coef[2,4]
     
-    ## trec
-    t1 = trecR(y, X=rep(1, n), z1=x, fam="negbin")
-    pval3[k] = 1 - pchisq(t1$lrt,1)
+     # Poisson 
+    p1 = glm(y ~ x,family=poisson(link=log))
+    ps1 = summary(p1)
+    pvalP[k] = ps1$coef[2,4]
     
+    # Quasi Poisson 
+    p1 = glm(y ~ x,family=quasipoisson(link=log))
+    ps1 = summary(p1)
+    pvalQP[k] = ps1$coef[2,4]
+    
+     # ------------------------------------------------
+    # 1 methods for ASE
+    # ------------------------------------------------
+    
+     # ASEbinom pval6
+    b1 <- binom.test(x = sum(y1[x==1]), n = (sum(y1[x==1])+sum(y2[x==1])), p = 0.5, alternative = "two.sided", conf.level = (1-alpha))
+    pvalASEB[k] = b1$p.value
+
+  # ------------------------------------------------
+    # 1 methods for both ASE DE
+  # ------------------------------------------------
+    
+    if(sum(as.integer(methods=="DE.ASE"))==1){
     nTotal = y1 + y2
     wkp    = which(nTotal >= 5)
     if(length(wkp) >= 5){
@@ -100,42 +142,26 @@ function(n, mu, fold, phi, theta, n.simu, alpha, maf)
       z2 = x
       z2[which(x==2)] = 4
       t2 = trecaseR(y, y1, y2, X=rep(1,n), z1=x, z2=z2)
-      pval4[k] = 1 - pchisq(t2$lrt,1)
-      pval5[k] = 1 - pchisq(t2$lrtASE,1)
+      pvalTreCASE[k] = 1 - pchisq(t2$lrt,1)
     }else{
-      pval4[k]  = pval3[k]
-      pval5[k]  = 1.0
-      useASE[k] = 0
+    	t1 = trecR(y, X=rep(1, n), z1=x, fam="negbin")
+      pvalTreCASE[k]  = 1 - pchisq(t1$lrt,1)
     }
-  
-    # ASEbinom pval6
-    b1 <- binom.test(x = sum(y1), n = (sum(y1)+sum(y2)), p = 0.5, alternative = "two.sided", conf.level = (1-alpha))
-    pval6[k] = b1$p.value
+  }# method Both
+
     
-    # Poisson pval7
-    p1 = glm(y ~ x,family=quasipoisson(link=log))
-    ps1 = summary(p1)
-    pval7[k] = ps1$coef[2,4]
+    
     
   }
   
-  pp1 = length(which(pval1 < alpha))/n.simu
-  pp2 = length(which(pval2 < alpha))/n.simu
-  pp3 = length(which(pval3 < alpha))/n.simu
-  pp4 = length(which(pval4 < alpha))/n.simu
-  pp5 = length(which(pval5 < alpha))/n.simu
-  pp6 = length(which(pval6 < alpha))/n.simu
-  pp7 = length(which(pval7 < alpha))/n.simu
+  ppLin = length(which(pvalLin < alpha))/n.simu
+  ppNB = length(which(pvalNB < alpha))/n.simu
+  ppP = length(which(pvalP < alpha))/n.simu
+  ppQP = length(which(pvalQP < alpha))/n.simu
+  ppASEB = length(which(pvalASEB < alpha))/n.simu
+  ppTreCASE = length(which(pvalTreCASE < alpha))/n.simu
   
-  # pp1: linear model
-  # pp2: glm.nb
-  # pp3: TReC
-  # pp4: TReCASE **Double checked
-  # pp5: ASEchi2 **Double checked
-  # pp6: ASEbinom
-  # pp7: Poisson
+  # Return in this order: linear, negbin, poisson, quasi poisson, asebinom, trecase
+  c(ppLin, ppNB, ppP, ppQP, ppASEB, ppTreCASE)
   
-  # Return in this order: linear, negbin, poisson, trec, asechi2, asebinom, trecase
-  # This would be: pp1, pp2, pp7, pp3, pp5, pp6, pp4 **double checked
-  c(pp1, pp2, pp7, pp3, pp5, pp6, pp4)
 }

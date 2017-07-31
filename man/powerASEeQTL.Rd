@@ -4,10 +4,10 @@
 \description{
 	This function implements a power analysis for RNAseq data and then plots it.
 }
-\usage{ powerASEeQTL(n, mu = 500, n.simu = 200, methods=c("linear", "negativeB", "poisson","TReC","ASEchi2","ASEbinom", "TReCASE"), 
-legend = TRUE, color = TRUE, folds = seq(1.5, 1.7, by = 0.2), alpha = 0.001, phi = 1, theta = 0.1, maf = 0.2, 
-title = "", subtitle = "", titlecolor = "black", subtitlecolor = "black", titlesize = 1, subtitlesize = 1, 
-labelsize = 1, labelcolor = "black", linewidth = 2, tilt = 0, SEED = 1)
+\usage{ powerASEeQTL(n,mu=500, n.simu=200,sim="sim1", methods=c("DE.linear", "DE.negBin","DE.poisson","DE.quasipoisson", "ASE.binom", "DE.ASE"), 
+          folds= seq(1.5, 1.7, by=0.2), alpha=0.001, phi=1.0, theta=0.1, maf=0.2, propASE=0.005, legend=TRUE, color=TRUE, title="", subtitle="", 
+         titlecolor="black", subtitlecolor="black", titlesize=1, subtitlesize=1, labelsize = 1, labelcolor = "black", linewidth=2, 
+         tilt=0, SEED = 1)
 }
 \arguments{
   \item{n}{
@@ -19,17 +19,19 @@ labelsize = 1, labelcolor = "black", linewidth = 2, tilt = 0, SEED = 1)
   \item{n.simu}{
   denotes the number of simulations.
 }
-  \item{methods}{
-  denotes a vector of the desired methods where "linear" is a
+  \item{sim}{
+  denotes the type of way the data is simulated.
+}
+  \item{methods}{ "DE.linear", "DE.negBin","DE.poisson","DE.quasipoisson", "ASE.binom", "DE.ASE"
+  denotes a vector of the desired methods where "DE.linear" is a
 linear regression using an inverse normal transformation for the total
-number of read counts. "negativeB" is a negative binomial regression
-for the total number of read counts. "poisson" is a poisson regression
-for the total number of read counts. "TReC" is an approach by Wei Sun
-(2012) A Statistical Framework for eQTL Mapping Using RNA-seq Data,
-Biometrics, 2012 Mar;68(1):1-11. "ASEchi2" is a chi-square test for
-allele specific expression (ASE). "ASEbinom" is a binomial test for
-ASE. "TreCASE" is an approach by Wei Sun that incorporates both eQTL
-and ASE analysis.
+number of read counts. "DE.negBin" is a negative binomial regression
+for the total number of read counts. "DE.poisson" is a poisson regression
+for the total number of read counts. "DE.quasipoisson" is a quasipoisson regression
+for the total number of read counts. "ASE.binom" is a binomial test for
+ASE. "DE.ASE" is an approach by Wei Sun that incorporates both eQTL
+and ASE analysis. (2012) A Statistical Framework for eQTL Mpping Using RNA-seq Data,
+Biometrics, 2012 Mar;68(1):1-11.
 }
   \item{legend}{
   is TRUE if you want the legend to be displayed for the graph or FALSE
@@ -53,6 +55,9 @@ distribution for the total number of read counts.
 }
   \item{maf}{
   denotes the minor allele frequency.
+}
+  \item{propASE}{
+  denotes the proportion of the total read count that is available for the allele specific read. The default based on real datasets is 0.005.
 }
   \item{title}{
   specifies the main title of the graph, default is none.

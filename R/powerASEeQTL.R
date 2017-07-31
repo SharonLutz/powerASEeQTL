@@ -1,6 +1,6 @@
 powerASEeQTL <-
-function(n,mu=500, n.simu=200, methods=c("linear", "negativeB","poisson","TReC","ASEchi2", "ASEbinom", "TReCASE"), 
-         legend=TRUE, color=TRUE, folds= seq(1.5, 1.7, by=0.2), alpha=0.001, phi=1.0, theta=0.1, maf=0.2, title="", subtitle="", 
+function(n,mu=500, n.simu=200,sim="sim1", methods=c("DE.linear", "DE.negBin","DE.poisson","DE.quasipoisson", "ASE.binom", "DE.ASE"), 
+          folds= seq(1.5, 1.7, by=0.2), alpha=0.001, phi=1.0, theta=0.1, maf=0.2, propASE=0.005, legend=TRUE, color=TRUE, title="", subtitle="", 
          titlecolor="black", subtitlecolor="black", titlesize=1, subtitlesize=1, labelsize = 1, labelcolor = "black", linewidth=2, 
          tilt=0, SEED = 1){
 
@@ -9,9 +9,14 @@ function(n,mu=500, n.simu=200, methods=c("linear", "negativeB","poisson","TReC",
   
   set.seed(SEED)
 
-possibleMethods <- c("linear", "negativeB", "poisson","TReC","ASEchi2","ASEbinom", "TReCASE")
+  # Check that sim is either sim1 or sim2
+  if(!sim%in%c("sim1","sim2")){
+    stop("Error: sim must be either sim1 or sim2.")
+  }
 
-matResultsF<-matrix(0,nrow=length(folds),ncol=7)
+possibleMethods <- c("DE.linear", "DE.negBin","DE.poisson","DE.quasipoisson", "ASE.binom", "DE.ASE")
+
+matResultsF<-matrix(0,nrow=length(folds),ncol=length(possibleMethods))
 colnames(matResultsF)<-possibleMethods
 
 # Length of methods to be used for color/ line type/ symbol vectors
@@ -28,16 +33,15 @@ for(yy in 1:length(methods)){
 }
 
 ### Reorder and rename methods to be same order every time
-tempMethods <- rep(NA,7)
+tempMethods <- rep(NA,length(possibleMethods))
 
 for(jj in 1:length(methods)){
-  if(toupper(methods[jj])=="LINEAR"){tempMethods[1]<-"linear"}
-  if(toupper(methods[jj])=="NEGATIVEB"){tempMethods[2]<-"negativeB"}
-  if(toupper(methods[jj])=="POISSON"){tempMethods[3]<-"poisson"}
-  if(toupper(methods[jj])=="TREC"){tempMethods[4]<-"TReC"}
-  if(toupper(methods[jj])=="ASECHI2"){tempMethods[5]<-"ASEchi2"}
-  if(toupper(methods[jj])=="ASEBINOM"){tempMethods[6]<-"ASEbinom"}
-  if(toupper(methods[jj])=="TRECASE"){tempMethods[7]<-"TReCASE"}
+  if(toupper(methods[jj])=="DE.LINEAR"){tempMethods[1]<-"DE.linear"}
+  if(toupper(methods[jj])=="DE.NEGBIN"){tempMethods[2]<-"DE.negBin"}
+  if(toupper(methods[jj])=="DE.POISSON"){tempMethods[3]<-"DE.poisson"}
+  if(toupper(methods[jj])=="DE.QUASIPOISSON"){tempMethods[4]<-"DE.quasipoisson"}
+  if(toupper(methods[jj])=="ASE.BINOM"){tempMethods[5]<-"ASE.binom"}
+  if(toupper(methods[jj])=="DE.ASE" ){tempMethods[6]<-"DE.ASE"}
 }
 
 methods <- tempMethods[!is.na(tempMethods)]
@@ -82,7 +86,7 @@ for(i in 1:length(folds)){
 print(paste("fold change",i,"in",length(folds)))
 fold   = folds[i]
 
-matResultsF[i,] = powerRNAseq(n, mu, fold, phi, theta, n.simu, alpha, maf)
+matResultsF[i,] = powerRNAseq(n, mu, fold, phi, theta, n.simu, alpha, maf, methods, sim, propASE)
 
 matResultsR<-matrix(0,nrow=length(folds),ncol=length(methods))
 colnames(matResultsR)<-methods
@@ -109,33 +113,31 @@ plot(-1,-1,xlim=c(min(folds),max(folds)),ylim=c(0,1),main=title,sub=subtitle,col
 
 for(mi in 1:length(methods)){
 
-    if(methods[mi]=="linear"){lines(folds,matResultsR[,"linear"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
+    if(methods[mi]=="DE.linear"){lines(folds,matResultsR[,"DE.linear"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
 
-    if(methods[mi]=="negativeB"){lines(folds,matResultsR[,"negativeB"],pch = pchv[mi],col=colVec[mi],type="b",lty = ltyv[mi], lwd = linewidth)}
+    if(methods[mi]=="DE.negBin"){lines(folds,matResultsR[,"DE.negBin"],pch = pchv[mi],col=colVec[mi],type="b",lty = ltyv[mi], lwd = linewidth)}
 
-    if(methods[mi]=="poisson"){lines(folds,matResultsR[,"poisson"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
+    if(methods[mi]=="DE.poisson"){lines(folds,matResultsR[,"DE.poisson"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
 
-    if(methods[mi]=="TReC"){lines(folds,matResultsR[,"TReC"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
+    if(methods[mi]=="DE.quasipoisson"){lines(folds,matResultsR[,"DE.quasipoisson"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
 
-    if(methods[mi]=="ASEchi2"){lines(folds,matResultsR[,"ASEchi2"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
+    if(methods[mi]=="ASE.binom"){lines(folds,matResultsR[,"ASE.binom"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
 
-    if(methods[mi]=="ASEbinom"){lines(folds,matResultsR[,"ASEbinom"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
-
-    if(methods[mi]=="TReCASE"){lines(folds,matResultsR[,"TReCASE"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
+    if(methods[mi]=="DE.ASE"){lines(folds,matResultsR[,"DE.ASE"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
 
 }
 
 # Create a legend only out of the included methods
 leg.text<-rep(0,length(methods))
 for(ff in 1:length(methods)){
-	if(methods[ff]=="linear"){leg.text[ff]<-c("eQTL: Linear Regression")}
-	if(methods[ff]=="negativeB"){leg.text[ff]<-c("eQTL: Negative binomial")}
-	if(methods[ff]=="poisson"){leg.text[ff]<-c("eQTL: Poisson Regression")}
-  if(methods[ff]=="TReC"){leg.text[ff]<-c("eQTL:TreC")}
-  if(methods[ff]=="ASEchi2"){leg.text[ff]<-c("ASE: chi-square")}
-  if(methods[ff]=="ASEbinom"){leg.text[ff]<-c("ASE: binomial test")}
-  if(methods[ff]=="TReCASE"){leg.text[ff]<-c("eQTL & ASE: TreCASE")}
+	if(methods[ff]=="DE.linear"){leg.text[ff]<-c("DE: Linear Regression")}
+	if(methods[ff]=="DE.negBin"){leg.text[ff]<-c("DE: Negative Binomial")}
+	if(methods[ff]=="DE.poisson"){leg.text[ff]<-c("DE: Poisson")}
+	if(methods[ff]=="DE.quasipoisson"){leg.text[ff]<-c("DE: Quasi Poisson")}
+  if(methods[ff]=="ASE.binom"){leg.text[ff]<-c("ASE: Binomial")}
+  if(methods[ff]=="DE.ASE"){leg.text[ff]<-c("DE & ASE: TreCASE")}
 }
+
 
 if(legend==TRUE){legend("topleft",legend = leg.text,col=colVec,lty=ltyv,pch=pchv)}
 
