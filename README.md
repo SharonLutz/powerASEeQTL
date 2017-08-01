@@ -15,7 +15,7 @@ library(powerASEeQTL)
 ?powerASEeQTL # For details on this function and how to customize its graphical output
 
 powerASEeQTL(n = 100, mu = 500, n.simu = 200,folds = seq(1.5, 2.5, by = 0.5), 
-alpha = 0.001, phi = 1, theta = 0.1, maf = 0.2)
+alpha = 0.001, phi = 1, theta = 0.1, maf = 0.2, sim = "sim2")
 ```
 
 #### Output
