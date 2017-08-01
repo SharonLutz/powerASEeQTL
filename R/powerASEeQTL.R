@@ -1,5 +1,5 @@
 powerASEeQTL <-
-function(n,mu=500, n.simu=200,sim="sim1", methods=c("DE.linear", "DE.negBin","DE.poisson","DE.quasipoisson", "ASE.binom", "DE.ASE"), 
+function(n,mu=500, n.simu=200,sim="sim1", methods=c("DE.linear", "DE.negBin","DE.quasipoisson", "ASE.binom", "DE.ASE"), 
           folds= seq(1.5, 1.7, by=0.2), alpha=0.001, phi=1.0, theta=0.1, maf=0.2, propASE=0.005, legend=TRUE, color=TRUE, title="", subtitle="", 
          titlecolor="black", subtitlecolor="black", titlesize=1, subtitlesize=1, labelsize = 1, labelcolor = "black", linewidth=2, 
          tilt=0, SEED = 1){
@@ -14,7 +14,7 @@ function(n,mu=500, n.simu=200,sim="sim1", methods=c("DE.linear", "DE.negBin","DE
     stop("Error: sim must be either sim1 or sim2.")
   }
 
-possibleMethods <- c("DE.linear", "DE.negBin","DE.poisson","DE.quasipoisson", "ASE.binom", "DE.ASE")
+possibleMethods <- c("DE.linear", "DE.negBin","DE.quasipoisson", "ASE.binom", "DE.ASE")
 
 matResultsF<-matrix(0,nrow=length(folds),ncol=length(possibleMethods))
 colnames(matResultsF)<-possibleMethods
@@ -38,10 +38,9 @@ tempMethods <- rep(NA,length(possibleMethods))
 for(jj in 1:length(methods)){
   if(toupper(methods[jj])=="DE.LINEAR"){tempMethods[1]<-"DE.linear"}
   if(toupper(methods[jj])=="DE.NEGBIN"){tempMethods[2]<-"DE.negBin"}
-  if(toupper(methods[jj])=="DE.POISSON"){tempMethods[3]<-"DE.poisson"}
-  if(toupper(methods[jj])=="DE.QUASIPOISSON"){tempMethods[4]<-"DE.quasipoisson"}
-  if(toupper(methods[jj])=="ASE.BINOM"){tempMethods[5]<-"ASE.binom"}
-  if(toupper(methods[jj])=="DE.ASE" ){tempMethods[6]<-"DE.ASE"}
+  if(toupper(methods[jj])=="DE.QUASIPOISSON"){tempMethods[3]<-"DE.quasipoisson"}
+  if(toupper(methods[jj])=="ASE.BINOM"){tempMethods[4]<-"ASE.binom"}
+  if(toupper(methods[jj])=="DE.ASE" ){tempMethods[5]<-"DE.ASE"}
 }
 
 methods <- tempMethods[!is.na(tempMethods)]
@@ -117,8 +116,6 @@ for(mi in 1:length(methods)){
 
     if(methods[mi]=="DE.negBin"){lines(folds,matResultsR[,"DE.negBin"],pch = pchv[mi],col=colVec[mi],type="b",lty = ltyv[mi], lwd = linewidth)}
 
-    if(methods[mi]=="DE.poisson"){lines(folds,matResultsR[,"DE.poisson"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
-
     if(methods[mi]=="DE.quasipoisson"){lines(folds,matResultsR[,"DE.quasipoisson"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
 
     if(methods[mi]=="ASE.binom"){lines(folds,matResultsR[,"ASE.binom"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
@@ -132,7 +129,6 @@ leg.text<-rep(0,length(methods))
 for(ff in 1:length(methods)){
 	if(methods[ff]=="DE.linear"){leg.text[ff]<-c("DE: Linear Regression")}
 	if(methods[ff]=="DE.negBin"){leg.text[ff]<-c("DE: Negative Binomial")}
-	if(methods[ff]=="DE.poisson"){leg.text[ff]<-c("DE: Poisson")}
 	if(methods[ff]=="DE.quasipoisson"){leg.text[ff]<-c("DE: Quasi Poisson")}
   if(methods[ff]=="ASE.binom"){leg.text[ff]<-c("ASE: Binomial")}
   if(methods[ff]=="DE.ASE"){leg.text[ff]<-c("DE & ASE: TreCASE")}

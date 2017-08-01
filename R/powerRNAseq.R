@@ -9,7 +9,7 @@ function(n, mu, fold, phi, theta, n.simu, alpha, maf, methods, sim, propASE)
   n0 = n - n1 - n2 #number of subjects with no disease alleles
   x = rep(0:2, times=c(n0, n1, n2))
   
-  pvalLin = pvalNB = pvalP= pvalQP  = pvalASEB =  pvalTreCASE = rep(1, n.simu)
+  pvalLin = pvalNB = pvalQP  = pvalASEB =  pvalTreCASE = rep(1, n.simu)
 
   for(k in 1:n.simu){
   if(k%%10==0){print(paste("simulation",k,"of",n.simu))}
@@ -112,11 +112,6 @@ function(n, mu, fold, phi, theta, n.simu, alpha, maf, methods, sim, propASE)
     s1 = summary(g1)
     pvalNB[k] = s1$coef[2,4]
     
-     # Poisson 
-    p1 = glm(y ~ x,family=poisson(link=log))
-    ps1 = summary(p1)
-    pvalP[k] = ps1$coef[2,4]
-    
     # Quasi Poisson 
     p1 = glm(y ~ x,family=quasipoisson(link=log))
     ps1 = summary(p1)
@@ -149,19 +144,20 @@ function(n, mu, fold, phi, theta, n.simu, alpha, maf, methods, sim, propASE)
     }
   }# method Both
 
-    
-    
-    
   }
   
   ppLin = length(which(pvalLin < alpha))/n.simu
   ppNB = length(which(pvalNB < alpha))/n.simu
-  ppP = length(which(pvalP < alpha))/n.simu
   ppQP = length(which(pvalQP < alpha))/n.simu
   ppASEB = length(which(pvalASEB < alpha))/n.simu
-  ppTreCASE = length(which(pvalTreCASE < alpha))/n.simu
+  if(sum(as.integer(methods=="DE.ASE"))==1){
+    ppTreCASE = length(which(pvalTreCASE < alpha))/n.simu
+  }else{
+    ppTreCASE = NA
+  }
+  
   
   # Return in this order: linear, negbin, poisson, quasi poisson, asebinom, trecase
-  c(ppLin, ppNB, ppP, ppQP, ppASEB, ppTreCASE)
+  c(ppLin, ppNB, ppQP, ppASEB, ppTreCASE)
   
 }
