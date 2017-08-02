@@ -122,7 +122,7 @@ function(n, mu, fold, phi, theta, n.simu, alpha, maf, methods, sim, propASE)
     # ------------------------------------------------
     
      # ASEbinom pval6
-    b1 <- binom.test(x = sum(y1[x==1]), n = (sum(y1[x==1])+sum(y2[x==1])), p = 0.5, alternative = "two.sided", conf.level = (1-alpha))
+    b1 <- binom.test(x = sum(y1[x==1]), n = (sum(y1[x==1])+sum(y2[x==1])), p = 0.5, alternative = "two.sided")
     pvalASEB[k] = b1$p.value
 
   # ------------------------------------------------
