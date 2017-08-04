@@ -22,12 +22,12 @@ function(n, mu, fold, phi, theta, n.simu, alpha, maf, methods, sim, propASE)
      y1 = y2 = rep(NA, n)
            
      y1 = rnegbin(n0, mu/2, phi) # X=0 A
-     y1 = c(y1, rnegbin(n1, mu*(fold)/4, phi)) # X=1 B
-     y1 = c(y1, rnegbin(n2, mu*(fold)/4, phi)) # X=2 B
+     y1 = c(y1, rnegbin(n1, mu*(fold)/2, phi)) # X=1 B
+     y1 = c(y1, rnegbin(n2, mu*(fold)/2, phi)) # X=2 B
      
      y2 = rnegbin(n0, mu/2, phi) # X=0 A
      y2 = c(y2, rnegbin(n1, mu/2, phi)) # X=1 A
-     y2 = c(y2, rnegbin(n2, mu*(fold)/4, phi))# X=2 B
+     y2 = c(y2, rnegbin(n2, mu*(fold)/2, phi))# X=2 B
     
     y= y1+y2
     y1=round(y1*propASE)
