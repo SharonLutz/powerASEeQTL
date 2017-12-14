@@ -1,11 +1,9 @@
 powerASEeQTL <-
-function(n,mu=500, n.simu=200,sim="sim1", methods=c("DE.linear", "DE.negBin","DE.quasipoisson", "ASE.binom", "DE.ASE"), 
-          folds= seq(1.5, 1.7, by=0.2), alpha=0.001, phi=1.0, theta=0.1, maf=0.2, propASE=0.005, legend=TRUE, color=TRUE, title="", subtitle="", 
-         titlecolor="black", subtitlecolor="black", titlesize=1, subtitlesize=1, labelsize = 1, labelcolor = "black", linewidth=2, 
-         tilt=0, SEED = 1){
+function(n,mu=500, n.simu=200,sim="sim1", methods=c("eQTL.linear","eQTL.negBin","eQTL.quasipoisson","ASE.BetaBinom", "eQTL.ASE"), folds= seq(1, 2,length.out=3), alpha=0.001, phi=1.1, theta=0.1, maf=0.2, propASE=0.005, legend=TRUE, color=TRUE, title="", subtitle="", titlecolor="black", subtitlecolor="black", titlesize=1, subtitlesize=1, labelsize = 1, labelcolor = "black", linewidth=2,tilt=0, SEED = 1){
 
   library(VGAM)
   library(MASS)
+  library(sensR)
   
   set.seed(SEED)
 
@@ -14,7 +12,7 @@ function(n,mu=500, n.simu=200,sim="sim1", methods=c("DE.linear", "DE.negBin","DE
     stop("Error: sim must be either sim1 or sim2.")
   }
 
-possibleMethods <- c("DE.linear", "DE.negBin","DE.quasipoisson", "ASE.binom", "DE.ASE")
+possibleMethods <- c("eQTL.linear", "eQTL.negBin","eQTL.quasipoisson","ASE.BetaBinom", "eQTL.ASE")
 
 matResultsF<-matrix(0,nrow=length(folds),ncol=length(possibleMethods))
 colnames(matResultsF)<-possibleMethods
@@ -22,7 +20,7 @@ colnames(matResultsF)<-possibleMethods
 # Length of methods to be used for color/ line type/ symbol vectors
 numMethods <- length(methods)
 
-colorVec <- c("black","red","green3","blue","cyan","magenta","mediumorchid4")
+colorVec <- c("black","red","green3","blue","cyan","magenta","mediumorchid4","purple")
 colorVec <- c(colorVec[1:numMethods])
 
 # Check that the methods are entered correctly
@@ -36,11 +34,11 @@ for(yy in 1:length(methods)){
 tempMethods <- rep(NA,length(possibleMethods))
 
 for(jj in 1:length(methods)){
-  if(toupper(methods[jj])=="DE.LINEAR"){tempMethods[1]<-"DE.linear"}
-  if(toupper(methods[jj])=="DE.NEGBIN"){tempMethods[2]<-"DE.negBin"}
-  if(toupper(methods[jj])=="DE.QUASIPOISSON"){tempMethods[3]<-"DE.quasipoisson"}
-  if(toupper(methods[jj])=="ASE.BINOM"){tempMethods[4]<-"ASE.binom"}
-  if(toupper(methods[jj])=="DE.ASE" ){tempMethods[5]<-"DE.ASE"}
+  if(toupper(methods[jj])=="EQTL.LINEAR"){tempMethods[1]<-"eQTL.linear"}
+  if(toupper(methods[jj])=="EQTL.NEGBIN"){tempMethods[2]<-"eQTL.negBin"}
+  if(toupper(methods[jj])=="EQTL.QUASIPOISSON"){tempMethods[3]<-"eQTL.quasipoisson"}
+  if(toupper(methods[jj])=="ASE.BETABINOM"){tempMethods[4]<-"ASE.BetaBinom"}
+  if(toupper(methods[jj])=="EQTL.ASE" ){tempMethods[6]<-"eQTL.ASE"}
 }
 
 methods <- tempMethods[!is.na(tempMethods)]
@@ -85,7 +83,7 @@ for(i in 1:length(folds)){
 print(paste("fold change",i,"in",length(folds)))
 fold   = folds[i]
 
-matResultsF[i,] = powerRNAseq(n, mu, fold, phi, theta, n.simu, alpha, maf, methods, sim, propASE)
+matResultsF[i,] = powerRNASEQ(n, mu, fold, phi, theta, n.simu, alpha, maf, methods, sim, propASE)
 
 matResultsR<-matrix(0,nrow=length(folds),ncol=length(methods))
 colnames(matResultsR)<-methods
@@ -96,8 +94,6 @@ if(length(methods)>1){
 matResultsR[,gg]<-matResultsF[,colnames(matResultsF)==methods[gg]]	
 	}}
 
-
-
 ########
 #Plot
 ########
@@ -105,33 +101,33 @@ matResultsR[,gg]<-matResultsF[,colnames(matResultsF)==methods[gg]]
 #matResults<-read.table(file=paste("simulationN",n,"Mu",mu,".txt",sep=""),header=TRUE)
 
 #create pdf of plot
-pdf(paste("powerRNAseqN",n,"Mu",mu,".pdf",sep=""))
+pdf(paste("powerASEeQTLn",n,"Mu",mu,".pdf",sep=""))
 
-plot(-1,-1,xlim=c(min(folds),max(folds)),ylim=c(0,1),main=title,sub=subtitle,col.main=titlecolor,col.sub=subtitlecolor,ylab="Power",xlab="Fold Change",col.lab=labelcolor,cex.lab=labelsize,cex.main=titlesize,cex.sub=subtitlesize,las=tilt)
-
+plot(-1,-1,xlim=c(min(folds),max(folds)),ylim=c(0,1),main=title,sub=subtitle,col.main=titlecolor,col.sub=subtitlecolor,
+     ylab="Power",xlab="Fold Change",col.lab=labelcolor,cex.lab=labelsize,cex.main=titlesize,cex.sub=subtitlesize,las=tilt)
 
 for(mi in 1:length(methods)){
 
-    if(methods[mi]=="DE.linear"){lines(folds,matResultsR[,"DE.linear"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
+    if(methods[mi]=="eQTL.linear"){lines(folds,matResultsR[,"eQTL.linear"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
 
-    if(methods[mi]=="DE.negBin"){lines(folds,matResultsR[,"DE.negBin"],pch = pchv[mi],col=colVec[mi],type="b",lty = ltyv[mi], lwd = linewidth)}
+    if(methods[mi]=="eQTL.negBin"){lines(folds,matResultsR[,"eQTL.negBin"],pch = pchv[mi],col=colVec[mi],type="b",lty = ltyv[mi], lwd = linewidth)}
 
-    if(methods[mi]=="DE.quasipoisson"){lines(folds,matResultsR[,"DE.quasipoisson"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
+    if(methods[mi]=="eQTL.quasipoisson"){lines(folds,matResultsR[,"eQTL.quasipoisson"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
 
-    if(methods[mi]=="ASE.binom"){lines(folds,matResultsR[,"ASE.binom"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
+    if(methods[mi]=="ASE.BetaBinom"&!NA%in%matResultsF[,"ASE.BetaBinom"]){lines(folds,matResultsR[,"ASE.BetaBinom"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
 
-    if(methods[mi]=="DE.ASE"){lines(folds,matResultsR[,"DE.ASE"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
+    if(methods[mi]=="eQTL.ASE"){lines(folds,matResultsR[,"eQTL.ASE"],pch = pchv[mi],col = colVec[mi],type="b",lty = ltyv[mi],lwd = linewidth)}
 
 }
 
 # Create a legend only out of the included methods
 leg.text<-rep(0,length(methods))
 for(ff in 1:length(methods)){
-	if(methods[ff]=="DE.linear"){leg.text[ff]<-c("DE: Linear Regression")}
-	if(methods[ff]=="DE.negBin"){leg.text[ff]<-c("DE: Negative Binomial")}
-	if(methods[ff]=="DE.quasipoisson"){leg.text[ff]<-c("DE: Quasi Poisson")}
-  if(methods[ff]=="ASE.binom"){leg.text[ff]<-c("ASE: Binomial")}
-  if(methods[ff]=="DE.ASE"){leg.text[ff]<-c("DE & ASE: TreCASE")}
+	if(methods[ff]=="eQTL.linear"){leg.text[ff]<-c("eQTL: Linear Regression")}
+	if(methods[ff]=="eQTL.negBin"){leg.text[ff]<-c("eQTL: Negative Binomial")}
+	if(methods[ff]=="eQTL.quasipoisson"){leg.text[ff]<-c("eQTL: Quasi Poisson")}
+	if(methods[ff]=="ASE.BetaBinom"&!NA%in%matResultsF[,"ASE.BetaBinom"]){leg.text[ff]<-c("ASE: Beta-Binomial")}
+  if(methods[ff]=="eQTL.ASE"){leg.text[ff]<-c("eQTL & ASE: TreCASE")}
 }
 
 
