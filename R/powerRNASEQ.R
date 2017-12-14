@@ -163,7 +163,7 @@ powerRNASEQ <-
     
     # If all of pvalBB is NA, set ppvalBB to be NA
     if(length(pvalBB[!is.na(pvalBB)])>0){
-      ppvalBB = sum(pvalBB[!is.na(pvalBB)])/length(!is.na(pvalBB))
+      ppvalBB = sum(pvalBB[!is.na(pvalBB)])/length(pvalBB[!is.na(pvalBB)])
     }else{ppvalBB <- NA}
     
     if(sum(as.integer(methods=="eQTL.ASE"))==1){
