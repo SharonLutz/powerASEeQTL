@@ -4,10 +4,7 @@
 \description{
 	This function implements a power analysis for RNAseq data and then plots it.
 }
-\usage{ powerASEeQTL(n,mu=500, n.simu=200,sim="sim1", methods=c("DE.linear", "DE.negBin","DE.quasipoisson", "ASE.binom", "DE.ASE"), 
-          folds= seq(1.5, 1.7, by=0.2), alpha=0.001, phi=1.0, theta=0.1, maf=0.2, propASE=0.005, legend=TRUE, color=TRUE, title="", subtitle="",
-         titlecolor="black", subtitlecolor="black", titlesize=1, subtitlesize=1, labelsize = 1, labelcolor = "black", linewidth=2, 
-         tilt=0, SEED = 1)
+\usage{ powerASEeQTL(n,mu=500, n.simu=200,sim="sim1", methods=c("eQTL.linear","eQTL.negBin","eQTL.quasipoisson","ASE.BetaBinom", "eQTL.ASE"), folds= seq(1, 2,length.out=3), alpha=0.001, phi=1.1, theta=0.1, maf=0.2, propASE=0.005, legend=TRUE, color=TRUE, title="", subtitle="", titlecolor="black", subtitlecolor="black", titlesize=1, subtitlesize=1, labelsize = 1, labelcolor = "black", linewidth=2,tilt=0, SEED = 1)
 }
 \arguments{
   \item{n}{
@@ -22,13 +19,13 @@
   \item{sim}{
   denotes the type of way the data is simulated.
 }
-  \item{methods}{ "DE.linear", "DE.negBin","DE.quasipoisson", "ASE.binom", "DE.ASE"
-  denotes a vector of the desired methods where "DE.linear" is a
+  \item{methods}{ "eQTL.linear","eQTL.negBin","eQTL.quasipoisson","ASE.BetaBinom", "eQTL.ASE")
+  denotes a vector of the desired methods where "eQTL.linear" is a
 linear regression using an inverse normal transformation for the total
-number of read counts. "DE.negBin" is a negative binomial regression
-for the total number of read counts. "DE.quasipoisson" is a quasipoisson regression
-for the total number of read counts. "ASE.binom" is a binomial test for
-ASE. "DE.ASE" is an approach by Wei Sun that incorporates both eQTL
+number of read counts. "eQTL.negBin" is a negative binomial regression
+for the total number of read counts. "eQTL.quasipoisson" is a quasipoisson regression
+for the total number of read counts. "ASE.BetaBinom" is a beta binomial test for
+ASE. "eQTL.ASE" is an approach by Wei Sun that incorporates both eQTL
 and ASE analysis. (2012) A Statistical Framework for eQTL Mpping Using RNA-seq Data,
 Biometrics, 2012 Mar;68(1):1-11.
 }
