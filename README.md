@@ -5,7 +5,6 @@ The powerASEeQTL R package runs power calculations for allele specific expressio
 install.packages("devtools") # devtools must be installed first
 install.packages("MASS") #this package must be installed first
 install.packages("VGAM") #this package must be installed first
-install.packages("sensR") #this package must be installed first
 
 devtools::install_github("SharonLutz/powerASEeQTL")
 ```
