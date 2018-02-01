@@ -21,10 +21,10 @@ alpha = 0.001, phi = 1, theta = 0.1, maf = 0.2, sim = "sim2")
 #### Output
 For this analysis we get the following matrix for the power calculations and corresponding plot:
 ```
-     DE.linear DE.negBin DE.quasipoisson ASE.binom DE.ASE
-[1,]      0.01      0.01           0.030     0.125  0.050
-[2,]      0.13      0.17           0.225     0.595  0.445
-[3,]      0.26      0.35           0.445     0.925  0.805
+     eQTL.linear eQTL.negBin eQTL.quasipoisson   ASE eQTL.ASE
+[1,]        0.01        0.01             0.030 0.015    0.050
+[2,]        0.13        0.17             0.225 0.185    0.445
+[3,]        0.26        0.35             0.445 0.375    0.805
 ```
 <img src="https://github.com/SharonLutz/powerASEeQTL/blob/master/powerRNAseqN100Mu500.png" width="600">
 
