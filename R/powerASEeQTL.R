@@ -19,7 +19,7 @@ colnames(matResultsF)<-possibleMethods
 # Length of methods to be used for color/ line type/ symbol vectors
 numMethods <- length(methods)
 
-colorVec <- c("black","red","green3","blue","cyan","magenta","mediumorchid4","purple")
+colorVec <- c("black","red","green3","blue","purple","magenta","mediumorchid4")
 colorVec <- c(colorVec[1:numMethods])
 
 # Check that the methods are entered correctly
