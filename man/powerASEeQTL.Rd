@@ -4,7 +4,7 @@
 \description{
 	This function implements a power analysis for RNAseq data and then plots it.
 }
-\usage{ powerASEeQTL(n,mu=500, n.simu=200,sim="sim1", methods=c("eQTL.linear","eQTL.negBin","eQTL.quasipoisson","ASE.BetaBinom", "eQTL.ASE"), folds= seq(1, 2,length.out=3), alpha=0.001, phi=1.1, theta=0.1, maf=0.2, propASE=0.005, legend=TRUE, color=TRUE, title="", subtitle="", titlecolor="black", subtitlecolor="black", titlesize=1, subtitlesize=1, labelsize = 1, labelcolor = "black", linewidth=2,tilt=0, SEED = 1)
+\usage{ powerASEeQTL(n,mu=500, n.simu=200,sim="sim1", methods=c("eQTL.linear","eQTL.negBin","eQTL.quasipoisson","ASE", "eQTL.ASE"), folds= seq(1, 2,length.out=3), alpha=0.001, phi=1.1, theta=0.1, maf=0.2, propASE=0.005, legend=TRUE, color=TRUE, title="", subtitle="", titlecolor="black", subtitlecolor="black", titlesize=1, subtitlesize=1, labelsize = 1, labelcolor = "black", linewidth=2,tilt=0, SEED = 1)
 }
 \arguments{
   \item{n}{
