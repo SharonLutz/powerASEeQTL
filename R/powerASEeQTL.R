@@ -10,6 +10,11 @@ function(n,mu=500, n.simu=200,sim="sim1", methods=c("eQTL.linear","eQTL.negBin",
   if(!sim%in%c("sim1","sim2")){
     stop("Error: sim must be either sim1 or sim2.")
   }
+  
+  # Check that n is over 25
+  if(n<=25){
+    stop("Error: n must be larger.")
+  }
 
 possibleMethods <- c("eQTL.linear", "eQTL.negBin","eQTL.quasipoisson","ASE", "eQTL.ASE")
 
