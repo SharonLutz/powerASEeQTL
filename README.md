@@ -29,5 +29,5 @@ For this analysis we get the following matrix for the power calculations and cor
 <img src="https://github.com/SharonLutz/powerASEeQTL/blob/master/powerASEeQTLn100Mu500.png" width="600">
 
 #### Reference
-**Lutz SM**, Thwing A, Fingerlin TE. (2017) Power Calculations for eQTL Mapping and Allele Specific Expression with RNA-seq Data. (Submitted)
+**Lutz SM**, Thwing A, Fingerlin TE. (2018) Power Calculations for eQTL Mapping and Allele Specific Expression with RNA-seq Data. (Submitted)
 
