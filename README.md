@@ -1,6 +1,7 @@
 ## powerASEeQTL
 The powerASEeQTL R package runs power calculations for allele specific expression (ASE) and eQTL analysis using RNA-seq data and creates plots of these results.
-#### Installation
+
+## Installation
 ```
 install.packages("devtools") # devtools must be installed first
 install.packages("MASS") #this package must be installed first
@@ -8,7 +9,8 @@ install.packages("VGAM") #this package must be installed first
 
 devtools::install_github("SharonLutz/powerASEeQTL")
 ```
-#### Example
+
+## Example
 The code below creates a plot of the power calculations for the eQTL and ASE analyses for RNA-seq data with the following parameters:
 ```
 library(powerASEeQTL)
@@ -18,7 +20,7 @@ powerASEeQTL(n = 100, mu = 500, n.simu = 200,folds = seq(1.5, 2.5, by = 0.5),
 alpha = 0.001, phi = 1, theta = 0.1, maf = 0.2, sim = "sim2")
 ```
 
-#### Output
+## Output
 For this analysis we get the following matrix for the power calculations and corresponding plot:
 ```
      eQTL.linear eQTL.negBin eQTL.quasipoisson   ASE eQTL.ASE
@@ -28,6 +30,6 @@ For this analysis we get the following matrix for the power calculations and cor
 ```
 <img src="https://github.com/SharonLutz/powerASEeQTL/blob/master/powerASEeQTLn100Mu500.png" width="600">
 
-#### Reference
+## Reference
 **Lutz SM**, Thwing A, Fingerlin TE. (2018) Power Calculations for eQTL Mapping and Allele Specific Expression with RNA-seq Data. (Submitted)
 
