@@ -135,7 +135,7 @@ for(ff in 1:length(methods)){
 }
 
 
-if(legend==TRUE){legend("topleft",legend = leg.text,col=colVec,lty=ltyv,pch=pchv)}
+if(legend==TRUE){legend("bottomright",legend = leg.text,col=colVec,lty=ltyv,pch=pchv)}
 
 }
 
