@@ -105,7 +105,7 @@ matResultsR[,gg]<-matResultsF[,colnames(matResultsF)==methods[gg]]
 #matResults<-read.table(file=paste("simulationN",n,"Mu",mu,".txt",sep=""),header=TRUE)
 
 #create pdf of plot
-pdf(paste("powerASEeQTLn",n,"Mu",mu,".pdf",sep=""))
+pdf(paste("powerASEeQTLn",n,"Mu",mu,sim,".pdf",sep=""))
 
 plot(-1,-1,xlim=c(min(folds),max(folds)),ylim=c(0,1),main=title,sub=subtitle,col.main=titlecolor,col.sub=subtitlecolor,
      ylab="Power",xlab="Fold Change",col.lab=labelcolor,cex.lab=labelsize,cex.main=titlesize,cex.sub=subtitlesize,las=tilt)
