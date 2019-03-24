@@ -91,7 +91,7 @@ distribution for the total number of read counts.
 }
 
 \value{
- A pdf plot of the power analysis of an RNAseq.
+ A pdf plot of the power analysis of eQTL and ASE for RNA-seq data.
 }
 
 \author{
