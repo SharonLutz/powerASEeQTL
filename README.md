@@ -27,7 +27,7 @@ For this analysis, we get the following plot where the y-axis is power and the x
 [2,]        0.13        0.17             0.225 0.185    0.445
 [3,]        0.26        0.35             0.445 0.375    0.805
 ```
-<img src="https://github.com/SharonLutz/powerASEeQTL/blob/master/powerASEeQTLn100Mu500.png" width="600">
+<img src="https://github.com/SharonLutz/powerASEeQTL/blob/master/powerASEeQTLn100Mu500.png" width="400">
 
 ## Reference
 **Lutz SM**, Thwing A, Fingerlin TE. (2019) Power Calculations for eQTL Mapping and Allele Specific Expression with RNA-seq Data. (Submitted)
