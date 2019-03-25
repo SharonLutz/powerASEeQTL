@@ -22,7 +22,7 @@ alpha = 0.001, phi = 1.1, theta = 0.1, maf = 0.2, sim = "sim1")
 ## Output
 For this analysis, we get the following plot where the y-axis is power and the x-axis is the fold change.
 
-<img src="https://github.com/SharonLutz/powerASEeQTL/blob/master/powerASEeQTLn100Mu500.png" width="400">
+<img src="https://github.com/SharonLutz/powerASEeQTL/blob/master/powerASEeQTLn100Mu500.png" width="500">
 
 ## Reference
 **Lutz SM**, Thwing A, Fingerlin TE. (2019) Power Calculations for eQTL Mapping and Allele Specific Expression with RNA-seq Data. (Submitted)
