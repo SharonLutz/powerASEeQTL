@@ -1,8 +1,36 @@
-powerASEeQTL <-
-function(n,mu=500, n.simu=200,sim="sim1", methods=c("eQTL.linear","eQTL.negBin","eQTL.quasipoisson","ASE", "eQTL.ASE"), folds= seq(1, 2,length.out=3), alpha=0.001, phi=1.1, theta=0.1, maf=0.2, propASE=0.005, legend=TRUE, color=TRUE, title="", subtitle="", titlecolor="black", subtitlecolor="black", titlesize=1, subtitlesize=1, labelsize = 1, labelcolor = "black", linewidth=2,tilt=0, SEED = 1){
+#' @include powerRNASEQ.R
 
-  library(VGAM)
-  library(MASS)
+#' @export
+#' @title powerASEeQTL
+#' @description A function to
+#' @author Annie Thwing, Sharon Lutz, Michael Gooch
+#' @param n n
+#' @param mu mu
+#' @param n.simu n.simu
+#' @param sim sim
+#' @param methods methods
+#' @param folds folds
+#' @param alpha alpha
+#' @param phi phi
+#' @param theta theta
+#' @param maf maf
+#' @param propASE propASE
+#' @param legend legend
+#' @param color color
+#' @param title title
+#' @param subtitle subtitle
+#' @param titlecolor titlecolor
+#' @param subtitlecolor subtitlecolor
+#' @param titlesize titlesize
+#' @param subtitlesize subtitlesize
+#' @param labelsize labelsize
+#' @param labelcolor labelcolor
+#' @param linewidth linewidth
+#' @return matResultsF
+powerASEeQTL <-
+function(n, mu=500, n.simu=200,sim="sim1", methods=c("eQTL.linear","eQTL.negBin","eQTL.quasipoisson","ASE", "eQTL.ASE"), folds= seq(1, 2,length.out=3), 
+         alpha=0.001, phi=1.1, theta=0.1, maf=0.2, propASE=0.005, legend=TRUE, color=TRUE, title="", subtitle="", titlecolor="black", 
+         subtitlecolor="black", titlesize=1, subtitlesize=1, labelsize = 1, labelcolor = "black", linewidth=2,tilt=0, SEED = 1){
   
   set.seed(SEED)
 

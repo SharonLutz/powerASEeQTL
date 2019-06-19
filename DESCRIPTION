@@ -7,3 +7,12 @@ Author: Sharon Lutz, Annie Thwing
 Maintainer: Annie Thwing <annie.thwing@ucdenver.edu>
 Description: This package runs power calculations for ASE and eQTL analyses for RNA-seq data.
 License: GPL-2
+Imports: 
+    VGAM,
+    MASS
+RoxygenNote: 6.1.1
+Collate: 
+    'helper_funcs.R'
+    'powerRNASEQ.R'
+    'powerASEeQTL.R'
+    'unused_helper_funcs.R'

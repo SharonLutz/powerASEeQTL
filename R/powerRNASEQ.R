@@ -1,3 +1,6 @@
+#' @include helper_funcs.R
+#' @importFrom MASS rnegbin glm.nb
+
 powerRNASEQ <-
   function(n, mu, fold, phi, theta, n.simu, alpha, maf, methods, sim, propASE)
   {
