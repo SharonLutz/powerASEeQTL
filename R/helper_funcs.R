@@ -7,7 +7,7 @@ normscore <-
     new.vec[!ties]=qnorm(rank[!ties]/len)
     new.vec[ties] =0.5*(qnorm((rank[ties]+0.5)/len)+qnorm((rank[ties]-0.5)/len))
     vec[!is.na(vec)] = new.vec
-    vec
+    return(vec)
   }
 
 grad.bxj.trec <-
@@ -27,7 +27,7 @@ grad.bxj.trec <-
     dmu.db[ww2] = mu1[ww2]
     
     grad = sum(dg.dmu*dmu.db)
-    grad
+    return(grad)
   }
 
 
@@ -48,7 +48,7 @@ loglikNB <-
       }
     }
     
-    logL
+    return(logL)
   }
 
 
@@ -69,7 +69,7 @@ logLTReC <-
         logL = logL + dpois(y[i], mu1[i], log = TRUE)  
       }
     }
-    logL
+    return(logL)
   }
 
 
@@ -216,7 +216,7 @@ trecR <-
       l1 = list(b=b0, phi=phi0, logLik=logLik, lrt=logLik1 - logLik0)
     }
     
-    l1
+    return(l1)
   }
 
 logBB <-
@@ -243,7 +243,7 @@ logBB <-
       tmp0 = tmp0 - log(1 + k*theta)
     }
     
-    tmp0
+    return(tmp0)
   }
 
 
@@ -260,7 +260,7 @@ logH0 <-
       sumL = sumL + logBB(ni, ni0, pi0, theta)
     }
     
-    sumL
+    return(sumL)
   }
 
 
@@ -292,7 +292,7 @@ gradBB <-
       grTh = grTh - k/(1 + k*theta)
     }
     
-    c(grTh, grPi)
+    return(c(grTh, grPi))
   }
 
 
@@ -311,7 +311,7 @@ gradLogH0 <-
       gradTh = gradTh + gri[1]
     }
     
-    gradTh
+    return(gradTh)
   }
 
 logH1 <-
@@ -332,7 +332,7 @@ logH1 <-
       }
     }
     
-    sumL
+    return(sumL)
   }
 
 gradLogH1 <-
@@ -357,13 +357,13 @@ gradLogH1 <-
       
     }
     
-    c(gradTh, gradPi1)
+    return(c(gradTh, gradPi1))
   }
 
 
 
 aseR <-
-  function(nA, nTotal, zeta, maxIt=50, trace=0) {    
+  function(nA, nTotal, zeta, maxIt=50, trace=0) {
     
     # --------------------------------------------------------------    
     # check input
@@ -411,8 +411,8 @@ aseR <-
                  method="L-BFGS-B", lower=c(0,0) + 1e-16, upper=c(Inf, 1-1e-16), 
                  control=list(fnscale=-1))
     
-    list(parH0=theta0,  logLikH0=op0$value, 
-         parH1=op1$par, logLikH1=op1$value)
+    return(list(parH0=theta0,  logLikH0=op0$value, 
+         parH1=op1$par, logLikH1=op1$value))
   }
 
 grad.bxj <-
@@ -452,7 +452,7 @@ grad.bxj <-
     dpi.db = exp(bxj)/((1 + exp(bxj))^2)
     
     grad = sum(dg.dmu*dmu.db) + dh.dpi*dpi.db
-    grad
+    return(grad)
   }
 
 loglikJoin <-
@@ -472,7 +472,7 @@ loglikJoin <-
     
     logASE  = logH1(par, nA, nTotal, zeta)
     
-    logTReC + logASE
+    return(logTReC + logASE)
   }
 
 loglikTheta <-
@@ -491,9 +491,37 @@ loglikTheta <-
       }
     }
     
-    sumL
+    return(sumL)
   }
 
+
+do_ASE <- function(y, y1, y2, X, z1, z2){
+  #----------------------------------------------------------
+  # initial model fitting
+  #---------------------------------------------------------- 
+  
+  g0 = glm.nb(y ~ X)
+  g0
+  
+  nTotal = as.numeric(y1 + y2)
+  nA     = as.numeric(y2)
+  nA[z2==3] = y1[z2==3]
+  
+  wkp    = which(nTotal >=5)
+  if(length(wkp) < 5){
+    stop("no enough allele specific reads\n")  
+  }
+  
+  nTotal = nTotal[wkp]
+  nA     = nA[wkp]
+  
+  wkp1   = which(abs(z2[wkp] - 2) < 1.5)      
+  zeta   = rep(0, length(nTotal))
+  zeta[wkp1] = 1
+  
+  a1 = aseR(nA, nTotal, zeta)
+  return(2.0*(a1$logLikH1 - a1$logLikH0))
+}
 
 trecaseR <-
   function(y, y1, y2, X, z1, z2, plotIt=FALSE, traceIt=FALSE){
@@ -690,7 +718,7 @@ trecaseR <-
       
     }
     
-    list(b=b0, theta=theta0, phi=phi0, logLik=logLik,
+    return(list(b=b0, theta=theta0, phi=phi0, logLik=logLik,
          lrt=logLik[length(logLik)] - logLikNULL, 
-         lrtASE=2.0*(a1$logLikH1 - a1$logLikH0))
+         lrtASE=2.0*(a1$logLikH1 - a1$logLikH0)))
   }

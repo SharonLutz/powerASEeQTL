@@ -1,9 +1,28 @@
 #' @include helper_funcs.R
 #' @importFrom MASS rnegbin glm.nb
 
+parse_methods <- function(methods){
+  result = list(
+    eQTL.linear=FALSE,
+    eQTL.negBin=FALSE,
+    eQTL.quasipoisson=FALSE,
+    eQTL.ASE=FALSE,
+    ASE=FALSE
+    )
+  for(method in methods){
+    if(exists(method, where=result)){
+      result[[method]] = TRUE
+    } else {
+      warning(paste(method, "is not a recognized method", sep=" "))
+    }
+  }
+  return(result)
+}
+
 powerRNASEQ <-
   function(n, mu, fold, phi, theta, n.simu, alpha, maf, methods, sim, propASE)
   {
+    method_flags = parse_methods(methods)
     n2 = round(n*maf*maf) #number of subjects with both disease alleles
     n1 = round(n*2*maf*(1-maf)) #number of subjects with one disease allele
     n0 = n - n1 - n2 #number of subjects with no disease alleles
@@ -100,27 +119,31 @@ powerRNASEQ <-
       # ------------------------------------------------
       # different models for eQTL
       # ------------------------------------------------
+      if(method_flags$eQTL.linear){
+        ## linear model
+        yn = normscore(y)
+        l1 = summary(lm(yn ~ x))
+        pvalLin[k] = l1$coef[2,4]
+      }
       
-      ## linear model
-      yn = normscore(y)
-      l1 = summary(lm(yn ~ x))
-      pvalLin[k] = l1$coef[2,4]
+      if(method_flags$eQTL.negBin){
+        ## glm.nb
+        g1 = glm.nb(y ~ x)
+        s1 = summary(g1)
+        pvalNB[k] = s1$coef[2,4]
+      }
       
-      ## glm.nb
-      g1 = glm.nb(y ~ x)
-      s1 = summary(g1)
-      pvalNB[k] = s1$coef[2,4]
+      if(method_flags$eQTL.quasipoisson){
+        # Quasi Poisson 
+        p1 = glm(y ~ x,family=quasipoisson(link=log))
+        ps1 = summary(p1)
+        pvalQP[k] = ps1$coef[2,4]
+      }
       
-      # Quasi Poisson 
-      p1 = glm(y ~ x,family=quasipoisson(link=log))
-      ps1 = summary(p1)
-      pvalQP[k] = ps1$coef[2,4]
-      
-      
-      # ------------------------------------------------
-      # methods for ASE and both ASE eQTL
-      # ------------------------------------------------
-      if(sum(as.integer(methods=="eQTL.ASE"&methods=="ASE"))>0){
+      if(method_flags$eQTL.ASE && method_flags$ASE){
+        # ------------------------------------------------
+        # methods for ASE and both ASE eQTL
+        # ------------------------------------------------
         nTotal = y1 + y2
         wkp    = which(nTotal >= 5)
         if(length(wkp) >= 5){
@@ -135,12 +158,10 @@ powerRNASEQ <-
           pvalTreCASE[k]  = 1 - pchisq(t1$lrt,1)
           pvalASE[k]  = 1.0
         }
-      }
-      
-      # ------------------------------------------------
-      # methods both ASE eQTL only
-      # ------------------------------------------------
-      if(sum(as.integer(methods=="eQTL.ASE" & methods!="ASE"))>0){
+      }else if(method_flags$eQTL.ASE && (!method_flags$ASE)){
+        # ------------------------------------------------
+        # methods both ASE eQTL only
+        # ------------------------------------------------
         nTotal = y1 + y2
         wkp    = which(nTotal >= 5)
         if(length(wkp) >= 5){
@@ -153,23 +174,20 @@ powerRNASEQ <-
           t1 = trecR(y, X=rep(1, n), z1=x, fam="negbin")
           pvalTreCASE[k]  = 1 - pchisq(t1$lrt,1)
         }
-      }
-      
-      # ------------------------------------------------
-      # methods ASE only
-      # ------------------------------------------------
-      if(sum(as.integer(methods!="eQTL.ASE" & methods=="ASE"))>0){
+      } else if((!method_flags$eQTL.ASE) && method_flags$ASE){
+        # ------------------------------------------------
+        # methods ASE only
+        # ------------------------------------------------
         nTotal = y1 + y2
         wkp    = which(nTotal >= 5)
         if(length(wkp) >= 5){
           ## trecase
           z2 = x
           z2[which(x==2)] = 4
-          t2 = trecaseR(y, y1, y2, X=rep(1,n), z1=x, z2=z2)
-          pvalASE[k] = 1 - pchisq(t2$lrtASE,1)
+          ase_result = do_ASE(y, y1, y2, X=rep(1,n), z1=x, z2=z2)
+          pvalASE[k] = 1.0 - pchisq(ase_result, 1.0)
         }else{
-          t1 = trecR(y, X=rep(1, n), z1=x, fam="negbin")
-          pvalASE[k]  = 1.0
+          pvalASE[k] = 1.0
         }
       }
       
