@@ -6,7 +6,7 @@ powerRNASEQ <-
     n0 = n - n1 - n2 #number of subjects with no disease alleles
     x = rep(0:2, times=c(n0, n1, n2))
     
-    pvalLin = pvalNB = pvalQP = pvalASE= pvalTreCASE = rep(NA, n.simu)
+    pvalLin = pvalNB = pvalQP = pvalASE= pvalTreCASE = rep(1, n.simu)
     
     for(k in 1:n.simu){
       if(k%%10==0){print(paste("simulation",k,"of",n.simu))}
