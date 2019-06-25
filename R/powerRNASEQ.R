@@ -19,6 +19,7 @@ parse_methods <- function(methods){
   return(result)
 }
 
+#' @title powerRNASEQ
 powerRNASEQ <-
   function(n, mu, fold, phi, theta, n.simu, alpha, maf, methods, sim, propASE)
   {

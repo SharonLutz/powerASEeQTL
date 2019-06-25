@@ -1,3 +1,6 @@
+
+#' @title normscore
+#' @param vec vec
 normscore <-
   function(vec) {
     len  = length(na.omit(vec))+1
@@ -10,6 +13,14 @@ normscore <-
     return(vec)
   }
 
+#' @title grad.bxj.trec
+#' @param bxj bxj
+#' @param y y
+#' @param x x
+#' @param mu mu
+#' @param b0 b0
+#' @param phi phi
+#' @param fam fam
 grad.bxj.trec <-
   function(bxj, y, x, mu, b0, phi, fam)
   {
@@ -30,7 +41,10 @@ grad.bxj.trec <-
     return(grad)
   }
 
-
+#' @title loglikNB
+#' @param phi phi
+#' @param mu mu
+#' @param y y
 loglikNB <-
   function(phi, mu, y){
     logL = 0.0
@@ -51,7 +65,14 @@ loglikNB <-
     return(logL)
   }
 
-
+#' @title logLTReC
+#' @param bxj bxj
+#' @param y y
+#' @param x x
+#' @param mu mu
+#' @param b0 b0
+#' @param phi phi
+#' @param fam fam
 logLTReC <-
   function(bxj, y, x, mu, b0, phi, fam){
     mu1 = mu
@@ -72,7 +93,15 @@ logLTReC <-
     return(logL)
   }
 
-
+#' @title trecR
+#' @param y y
+#' @param x x
+#' @param z1 z1
+#' @param fam fam
+#' @param nIter nIter
+#' @param plotIt plotIt
+#' @param trace trace
+#' @param yfit yfit
 trecR <-
   function(y, X, z1, fam, nIter=100, plotIt=FALSE, trace=FALSE, yfit=FALSE){
     
@@ -219,6 +248,11 @@ trecR <-
     return(l1)
   }
 
+#' @title logBB
+#' @param ni ni
+#' @param ni0 ni0
+#' @param pi pi
+#' @param theta theta
 logBB <-
   function(ni, ni0, pi, theta){
     
@@ -246,7 +280,10 @@ logBB <-
     return(tmp0)
   }
 
-
+#' @title logH0
+#' @param par par
+#' @param nA nA
+#' @param nTotal nTotal
 logH0 <-
   function(par, nA, nTotal){
     theta = par[1]
@@ -263,7 +300,11 @@ logH0 <-
     return(sumL)
   }
 
-
+#' @title gradBB
+#' @param ni ni
+#' @param ni0 ni0
+#' @param pi pi
+#' @param theta theta
 gradBB <-
   function(ni, ni0, pi, theta){
     
@@ -296,6 +337,10 @@ gradBB <-
   }
 
 
+#' @title gradLogH0
+#' @param par par
+#' @param nA nA
+#' @param nTotal nTotal
 gradLogH0 <-
   function(par, nA, nTotal){
     theta = par[1]
@@ -314,6 +359,11 @@ gradLogH0 <-
     return(gradTh)
   }
 
+#' @title logH1
+#' @param par par
+#' @param nA nA
+#' @param nTotal nTotal
+#' @param zeta zeta
 logH1 <-
   function(par, nA, nTotal, zeta){
     theta = par[1]
@@ -335,6 +385,11 @@ logH1 <-
     return(sumL)
   }
 
+#' @title gradLogH1
+#' @param par par
+#' @param nA nA
+#' @param nTotal nTotal
+#' @param zeta zeta
 gradLogH1 <-
   function(par, nA, nTotal, zeta){
     theta = par[1]
@@ -361,7 +416,12 @@ gradLogH1 <-
   }
 
 
-
+#' @title aseR
+#' @param nA nA
+#' @param nTotal nTotal
+#' @param zeta zeta
+#' @param maxIt maxIt
+#' @param trace trace
 aseR <-
   function(nA, nTotal, zeta, maxIt=50, trace=0) {
     
@@ -415,6 +475,17 @@ aseR <-
          parH1=op1$par, logLikH1=op1$value))
   }
 
+#' @title grad.bxj
+#' @param bxj bxj
+#' @param y y
+#' @param x x
+#' @param nA, nA
+#' @param nTotal nTotal
+#' @param zeta zeta
+#' @param mu mu
+#' @param b0 b0
+#' @param phi phi
+#' @param theta theta
 grad.bxj <-
   function(bxj, y, x, nA, nTotal, zeta, mu, b0, phi, theta)
   {
@@ -455,6 +526,17 @@ grad.bxj <-
     return(grad)
   }
 
+#' @title loglikJoin
+#' @param bxj bxj
+#' @param y y
+#' @param x x
+#' @param nA, nA
+#' @param nTotal nTotal
+#' @param zeta zeta
+#' @param mu mu
+#' @param b0 b0
+#' @param phi phi
+#' @param theta theta
 loglikJoin <-
   function(bxj, y, x, nA, nTotal, zeta, mu, b0, phi, theta){
     
@@ -475,6 +557,12 @@ loglikJoin <-
     return(logTReC + logASE)
   }
 
+#' @title loglikTheta
+#' @param theta theta
+#' @param pi pi
+#' @param nA, nA
+#' @param nTotal nTotal
+#' @param zeta zeta
 loglikTheta <-
   function(theta, pi, nA, nTotal, zeta){
     
@@ -494,7 +582,13 @@ loglikTheta <-
     return(sumL)
   }
 
-
+#' @title do_ASE
+#' @param y y
+#' @param y1 y1
+#' @param y2 y2
+#' @param x x
+#' @param z1 z1
+#' @param z2 z2
 do_ASE <- function(y, y1, y2, X, z1, z2){
   #----------------------------------------------------------
   # initial model fitting
@@ -523,6 +617,15 @@ do_ASE <- function(y, y1, y2, X, z1, z2){
   return(2.0*(a1$logLikH1 - a1$logLikH0))
 }
 
+#' @title trecaseR
+#' @param y y
+#' @param y1 y1
+#' @param y2 y2
+#' @param x x
+#' @param z1 z1
+#' @param z2 z2
+#' @param plotIt plotIt
+#' @param traceIt traceIt
 trecaseR <-
   function(y, y1, y2, X, z1, z2, plotIt=FALSE, traceIt=FALSE){
     
