@@ -120,7 +120,7 @@ powerRNASEQ <-
       # ------------------------------------------------
       # methods for ASE and both ASE eQTL
       # ------------------------------------------------
-      if(sum(as.integer(methods=="eQTL.ASE"|methods=="ASE"))>0){
+      if(sum(as.integer(methods=="eQTL.ASE"&methods=="ASE"))>0){
         nTotal = y1 + y2
         wkp    = which(nTotal >= 5)
         if(length(wkp) >= 5){
@@ -133,6 +133,42 @@ powerRNASEQ <-
         }else{
           t1 = trecR(y, X=rep(1, n), z1=x, fam="negbin")
           pvalTreCASE[k]  = 1 - pchisq(t1$lrt,1)
+          pvalASE[k]  = 1.0
+        }
+      }
+      
+      # ------------------------------------------------
+      # methods both ASE eQTL only
+      # ------------------------------------------------
+      if(sum(as.integer(methods=="eQTL.ASE" & methods!="ASE"))>0){
+        nTotal = y1 + y2
+        wkp    = which(nTotal >= 5)
+        if(length(wkp) >= 5){
+          ## trecase
+          z2 = x
+          z2[which(x==2)] = 4
+          t2 = trecaseR(y, y1, y2, X=rep(1,n), z1=x, z2=z2)
+          pvalTreCASE[k] = 1 - pchisq(t2$lrt,1)
+        }else{
+          t1 = trecR(y, X=rep(1, n), z1=x, fam="negbin")
+          pvalTreCASE[k]  = 1 - pchisq(t1$lrt,1)
+        }
+      }
+      
+      # ------------------------------------------------
+      # methods ASE only
+      # ------------------------------------------------
+      if(sum(as.integer(methods!="eQTL.ASE" & methods=="ASE"))>0){
+        nTotal = y1 + y2
+        wkp    = which(nTotal >= 5)
+        if(length(wkp) >= 5){
+          ## trecase
+          z2 = x
+          z2[which(x==2)] = 4
+          t2 = trecaseR(y, y1, y2, X=rep(1,n), z1=x, z2=z2)
+          pvalASE[k] = 1 - pchisq(t2$lrtASE,1)
+        }else{
+          t1 = trecR(y, X=rep(1, n), z1=x, fam="negbin")
           pvalASE[k]  = 1.0
         }
       }
