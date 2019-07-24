@@ -4,11 +4,11 @@ Title: This package runs a power analysis on RNAseq data
 Version: 1.0
 Date: 2016-09-25
 Authors@R: c(
-    person("Sharon", "Lutz", role=c("aut")),
-    person("Annie", "Thwing", email="annie.thwing@ucdenver.edu", role=c("aut", "cre")),
+    person("Annie", "Thwing", email="annie.thwing@ucdenver.edu", role=c("aut")),
+    person("Sharon", "Lutz", email="smlutz@hsph.harvard.edu", role=c("cre","aut")),
     person("Michael", "Gooch", email="goochmi@gmail.com", role=c("ctb","aut"))
     )
-Maintainer: Annie Thwing <annie.thwing@ucdenver.edu>
+Maintainer: Sharon Lutz <smlutz@hsph.harvard.edu>
 Description: This package runs power calculations for ASE and eQTL analyses for RNA-seq data.
 Encoding: UTF-8
 License: GPL-2
