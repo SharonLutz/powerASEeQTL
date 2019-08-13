@@ -15,7 +15,6 @@ License: GPL-2
 Imports: 
     VGAM,
     MASS
-RoxygenNote: 6.1.1
 Collate: 
     'helper_funcs.R'
     'powerRNASEQ.R'

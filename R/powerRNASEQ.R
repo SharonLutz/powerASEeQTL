@@ -1,6 +1,3 @@
-#' @include helper_funcs.R
-#' @importFrom MASS rnegbin glm.nb
-
 parse_methods <- function(methods){
   result = list(
     eQTL.linear=FALSE,
@@ -19,7 +16,6 @@ parse_methods <- function(methods){
   return(result)
 }
 
-#' @title powerRNASEQ
 powerRNASEQ <-
   function(n, mu, fold, phi, theta, n.simu, alpha, maf, methods, sim, propASE)
   {

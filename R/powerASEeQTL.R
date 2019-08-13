@@ -1,35 +1,3 @@
-#' @include powerRNASEQ.R
-
-#' @export
-#' @title powerASEeQTL
-#' @description This function implements a power analysis for RNAseq data and then plots it.
-#' @author Annie Thwing, Sharon Lutz, Michael Gooch
-#' @keywords package power
-#' @param n denotes the sample size.
-#' @param mu denotes the total number of reads.
-#' @param n.simu denotes the number of simulations.
-#' @param sim denotes the type of way the data is simulated.
-#' @param methods denotes a vector of the desired methods where "eQTL.linear" is a linear regression using an inverse normal transformation for the total number of read counts. "eQTL.negBin" is a negative binomial regression for the total number of read counts. "eQTL.quasipoisson" is a quasipoisson regression for the total number of read counts. "ASE.BetaBinom" is a beta binomial test for ASE. "eQTL.ASE" is an approach by Wei Sun that incorporates both eQTL and ASE analysis. (2012) A Statistical Framework for eQTL Mpping Using RNA-seq Data, Biometrics, 2012 Mar;68(1):1-11.
-#' @param folds denotes the fold change.
-#' @param alpha denotes the significance level.
-#' @param phi denotes the dispersion parameter for the negative binomial distribution for the total number of read counts.
-#' @param theta specifies the extent of ASE.
-#' @param maf denotes the minor allele frequency.
-#' @param propASE denotes the proportion of the total read count that is available for the allele specific read. The default based on real datasets is 0.005.
-#' @param legend is TRUE if you want the legend to be displayed for the graph or FALSE if you don't want the legend displayed on the graph.
-#' @param color is TRUE if you want the graph in color or FALSE if you want it in grayscale.
-#' @param title specifies the main title of the graph, default is none.
-#' @param subtitle specifies the subtitle of the graph, default is none
-#' @param titlecolor denotes what color the title will be
-#' @param subtitlecolor denotes what color the subtitle will be
-#' @param titlesize denotes what size the title will be, default is 1
-#' @param subtitlesize denotes what size the subtitle will be, default is 1
-#' @param labelsize denotes what size the axis labels will be, default is 1
-#' @param labelcolor denotes what color the axis labels will be
-#' @param linewidth denotes the boldness of the lines on the graph
-#' @param tilt denotes whether or not the y axis labels are tilted, default is 0, 1 will rotate labels 90 degrees
-#' @param SEED sets the seed, default = 1.
-#' @return A pdf plot of the power analysis of eQTL and ASE for RNA-seq data.
 powerASEeQTL <-
 function(n, mu=500, n.simu=200,sim="sim1", methods=c("eQTL.linear","eQTL.negBin","eQTL.quasipoisson","ASE", "eQTL.ASE"), folds= seq(1, 2,length.out=3), 
          alpha=0.001, phi=1.1, theta=0.1, maf=0.2, propASE=0.005, legend=TRUE, color=TRUE, title="", subtitle="", titlecolor="black", 
