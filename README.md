@@ -15,8 +15,13 @@ The code below creates a plot of the power calculations for the eQTL and ASE ana
 ```
 library(powerASEeQTL)
 
-powerASEeQTL(n = 500, mu = 500, n.simu = 500,folds = seq(1.5, 2, by = 0.25), 
-alpha = 0.001, phi = 1.1, theta = 0.1, maf = 0.2, sim = "sim1")
+#case 1: methods for eQTL and ASE (faster)
+powerASEeQTL(n = 500, mu = 500, n.simu = 500,methods=c("eQTL.linear","eQTL.negBin","eQTL.quasipoisson","ASE"),
+folds = seq(1.5, 2, by = 0.25),alpha = 0.001, phi = 1.1, theta = 0.1, maf = 0.2, sim = "sim1")
+
+#case 2: all methods (slower)
+powerASEeQTL(n = 500, mu = 500, n.simu = 500,methods=c("eQTL.linear","eQTL.negBin","eQTL.quasipoisson","ASE", "eQTL.ASE"),
+folds = seq(1.5, 2, by = 0.25),alpha = 0.001, phi = 1.1, theta = 0.1, maf = 0.2, sim = "sim1")
 ```
 
 ## Output
